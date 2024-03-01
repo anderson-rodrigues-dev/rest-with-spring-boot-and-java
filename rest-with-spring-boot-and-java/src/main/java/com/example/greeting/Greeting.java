@@ -1,4 +1,4 @@
-package com.example;
+package com.example.greeting;
 
 public class Greeting {
     private final long id;
