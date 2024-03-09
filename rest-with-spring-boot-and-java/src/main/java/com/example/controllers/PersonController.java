@@ -28,13 +28,13 @@ public class PersonController {
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
                 produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO create(@RequestBody PersonVO person){
+    public PersonVO create(@RequestBody PersonVO person) throws Exception {
         return service.create(person);
     }
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML},
                 produces = {MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
-    public PersonVO update(@RequestBody PersonVO person){
+    public PersonVO update(@RequestBody PersonVO person) throws Exception {
         return service.update(person);
     }
 
