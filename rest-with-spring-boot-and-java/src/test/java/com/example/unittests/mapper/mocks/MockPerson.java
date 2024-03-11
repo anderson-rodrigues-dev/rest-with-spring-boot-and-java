@@ -17,11 +17,11 @@ public class MockPerson {
     }
     
     public List<Person> mockEntityList() {
-        List<Person> persons = new ArrayList<>();
+        List<Person> people = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
-            persons.add(mockEntity(i));
+            people.add(mockEntity(i));
         }
-        return persons;
+        return people;
     }
 
     public List<PersonVO> mockVOList() {
