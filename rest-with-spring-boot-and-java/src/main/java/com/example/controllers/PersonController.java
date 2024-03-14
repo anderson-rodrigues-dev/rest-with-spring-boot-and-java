@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// @CrossOrigin
 @RestController
 @RequestMapping("/api/person/v1")
 @Tag(name = "People", description = "Endpoints for Management People")
@@ -22,6 +23,7 @@ public class PersonController {
     @Autowired
     private PersonServices service;
 
+    @CrossOrigin(origins = "http://localhost:8080")
     @GetMapping(value = "/{id}",
                 produces = {com.example.util.MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML, MediaType.APPLICATION_YML})
     @Operation(summary = "Find Person by Id", description = "Finds Person by Id",
@@ -58,7 +60,7 @@ public class PersonController {
                     @ApiResponse(description = "Internal Server Error", responseCode = "500", content = @Content)
 
                 })
-    public List<PersonVO> findAll() throws Exception{
+    public List<PersonVO> findAll() {
         return service.findAll();
     }
 
