@@ -34,7 +34,7 @@ class PersonServicesTest {
     PersonRepository repository;
 
     @BeforeEach
-    void setUpMocks() throws Exception{
+    void setUpMocks(){
         input = new MockPerson();
         MockitoAnnotations.openMocks(this);
     }
@@ -112,7 +112,6 @@ class PersonServicesTest {
         String expectedMessage = "It is not allowed to persist a null object!";
         String actualMessage = exception.getMessage();
         assertTrue(actualMessage.contains(expectedMessage));
-
     }
 
     @Test
