@@ -1,4 +1,4 @@
-package com.example.integrationtests.controller.withjson;
+package com.example.integrationtests.controller.withxml;
 
 import com.example.configs.TestConfigs;
 import com.example.integrationtests.testcontainers.AbstractIntegrationTest;
@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class PersonControllerJsonTest extends AbstractIntegrationTest {
+public class PersonControllerXmlTest extends AbstractIntegrationTest {
     private static RequestSpecification specification;
     private static ObjectMapper objectMapper;
 
@@ -41,7 +41,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         String accessToken = given()
                 .basePath("/auth/signin")
                 .port(TestConfigs.SERVER_PORT)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
                     .body(user)
                     .when()
                     .post()
@@ -69,7 +69,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         var content = given()
                 .spec(specification)
                 .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .body(person)
                     .when()
                     .post()
@@ -103,7 +103,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         var content = given()
                 .spec(specification)
                 .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ANDIIN)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .body(person)
                 .when()
                 .post()
@@ -124,7 +124,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         var content = given()
                 .spec(specification)
                 .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .pathParam("id", person.getId())
                 .when()
                 .get("{id}")
@@ -158,7 +158,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
         var content = given()
                 .spec(specification)
                 .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_ANDIIN)
-                .contentType(TestConfigs.CONTENT_TYPE_JSON)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
                 .pathParam("id", person.getId())
                 .when()
                 .get("{id}")
