@@ -88,6 +88,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(createdPerson.getFirstName());
         assertNotNull(createdPerson.getAddress());
         assertNotNull(createdPerson.getGender());
+        assertTrue(createdPerson.getEnabled());
 
         assertTrue(createdPerson.getId() > 0);
 
@@ -120,6 +121,41 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 
     @Test
     @Order(3)
+    void testDisablePersonById() throws JsonProcessingException {
+        var content = given()
+                .spec(specification)
+                .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .contentType(TestConfigs.CONTENT_TYPE_XML)
+                .pathParam("id", person.getId())
+                .when()
+                .patch("{id}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .asString();
+
+        PersonVO persistedPerson = objectMapper.readValue(content, PersonVO.class);
+        person = persistedPerson;
+
+        assertNotNull(persistedPerson);
+        assertNotNull(persistedPerson.getId());
+        assertNotNull(persistedPerson.getFirstName());
+        assertNotNull(persistedPerson.getFirstName());
+        assertNotNull(persistedPerson.getAddress());
+        assertNotNull(persistedPerson.getGender());
+        assertFalse(persistedPerson.getEnabled());
+
+        assertTrue(persistedPerson.getId() > 0);
+
+        assertEquals("Richard", persistedPerson.getFirstName());
+        assertEquals("Stallman", persistedPerson.getLastName());
+        assertEquals("New York City, New York, US", persistedPerson.getAddress());
+        assertEquals("Male", persistedPerson.getGender());
+    }
+
+    @Test
+    @Order(4)
     void testFindById() throws JsonProcessingException {
         var content = given()
                 .spec(specification)
@@ -143,6 +179,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(persistedPerson.getFirstName());
         assertNotNull(persistedPerson.getAddress());
         assertNotNull(persistedPerson.getGender());
+        assertFalse(persistedPerson.getEnabled());
 
         assertTrue(persistedPerson.getId() > 0);
 
@@ -153,7 +190,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void testFindByIdWithWrongOrigin() {
         var content = given()
                 .spec(specification)
@@ -171,10 +208,12 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
         assertNotNull(content);
         assertEquals("Invalid CORS request", content);
     }
+
     private void mockPerson() {
         person.setFirstName("Richard");
         person.setLastName("Stallman");
         person.setAddress("New York City, New York, US");
         person.setGender("Male");
+        person.setEnabled(true);
     }
 }

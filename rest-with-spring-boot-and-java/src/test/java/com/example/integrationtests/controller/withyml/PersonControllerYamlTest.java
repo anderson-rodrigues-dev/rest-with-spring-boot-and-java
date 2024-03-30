@@ -104,6 +104,7 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
         assertNotNull(createdPerson.getAddress());
         assertNotNull(createdPerson.getGender());
 
+        assertTrue(createdPerson.getEnabled());
         assertTrue(createdPerson.getId() > 0);
 
         assertEquals("Richard", createdPerson.getFirstName());
@@ -138,9 +139,48 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
         assertNotNull(content);
         assertEquals("Invalid CORS request", content);
     }
-
     @Test
     @Order(3)
+    void testDisablePersonById() {
+        PersonVO persistedPerson = given()
+                .spec(specification)
+                .config(RestAssuredConfig.config()
+                        .encoderConfig(EncoderConfig.encoderConfig()
+                                .encodeContentTypeAs(TestConfigs.CONTENT_TYPE_YAML, ContentType.TEXT)
+                        )
+                )
+                .accept(TestConfigs.CONTENT_TYPE_YAML)
+                .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
+                .contentType(TestConfigs.CONTENT_TYPE_YAML)
+                .pathParam("id", person.getId())
+                .when()
+                .patch("{id}")
+                .then()
+                .statusCode(200)
+                .extract()
+                .body()
+                .as(PersonVO.class, mapper);
+
+        person = persistedPerson;
+
+        assertNotNull(persistedPerson);
+        assertNotNull(persistedPerson.getId());
+        assertNotNull(persistedPerson.getFirstName());
+        assertNotNull(persistedPerson.getFirstName());
+        assertNotNull(persistedPerson.getAddress());
+        assertNotNull(persistedPerson.getGender());
+
+        assertFalse(persistedPerson.getEnabled());
+        assertTrue(persistedPerson.getId() > 0);
+
+        assertEquals("Richard", persistedPerson.getFirstName());
+        assertEquals("Stallman", persistedPerson.getLastName());
+        assertEquals("New York City, New York, US", persistedPerson.getAddress());
+        assertEquals("Male", persistedPerson.getGender());
+    }
+
+    @Test
+    @Order(4)
     void testFindById() throws JsonProcessingException {
         PersonVO persistedPerson = given()
                 .spec(specification)
@@ -170,6 +210,7 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
         assertNotNull(persistedPerson.getAddress());
         assertNotNull(persistedPerson.getGender());
 
+        assertFalse(persistedPerson.getEnabled());
         assertTrue(persistedPerson.getId() > 0);
 
         assertEquals("Richard", persistedPerson.getFirstName());
@@ -179,7 +220,7 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
     }
 
     @Test
-    @Order(4)
+    @Order(5)
     void testFindByIdWithWrongOrigin() {
         var content = given()
                 .spec(specification)
@@ -208,5 +249,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
         person.setLastName("Stallman");
         person.setAddress("New York City, New York, US");
         person.setGender("Male");
+        person.setEnabled(true);
     }
 }
