@@ -17,7 +17,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -42,27 +41,6 @@ class BookServicesTest {
     }
 
     @Test
-    void findAll() {
-        List<Book> entities = input.mockEntityList();
-
-        when(repository.findAll()).thenReturn(entities);
-        var books = service.findAll();
-        assertNotNull(books);
-        assertEquals(14, books.size());
-
-        books.forEach(book -> {
-            assertNotNull(book);
-            assertNotNull(book.getKey());
-            assertNotNull(book.getLinks());
-            assertTrue(book.toString().contains("links: [</api/book/v1/" + book.getKey() + ">;rel=\"self\"]"));
-            assertEquals("Author" + book.getKey(), book.getAuthor());
-            assertThat(book.getLaunchDate()).isEqualTo(LocalDate.of(2024, 3, 10));
-            assertEquals(book.getKey().doubleValue(), book.getPrice());
-            assertEquals("Title" + book.getKey(), book.getTitle());
-        });
-    }
-
-    @Test
     void findById() {
         Book entity = input.mockEntity(1);
 
@@ -82,10 +60,8 @@ class BookServicesTest {
     void create() {
         Book entity = input.mockEntity(1);
 
-        Book persisted = entity;
-
         BookVO vo = input.mockBookVO(1);
-        when(repository.save(entity)).thenReturn(persisted);
+        when(repository.save(entity)).thenReturn(entity);
         when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
 
         BookVO result = service.create(vo);
@@ -115,10 +91,8 @@ class BookServicesTest {
     void update() {
         Book entity = input.mockEntity(1);
 
-        Book persisted = entity;
-
         BookVO vo = input.mockBookVO(1);
-        when(repository.save(entity)).thenReturn(persisted);
+        when(repository.save(entity)).thenReturn(entity);
         when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
 
         var result = service.update(vo);

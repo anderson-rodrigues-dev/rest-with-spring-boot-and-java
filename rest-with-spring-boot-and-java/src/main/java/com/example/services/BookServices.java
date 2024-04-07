@@ -8,9 +8,14 @@ import com.example.mapper.ModelMapper;
 import com.example.models.Book;
 import com.example.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -23,21 +28,33 @@ public class BookServices {
     @Autowired
     private BookRepository repository;
 
-    public List<BookVO> findAll(){
+    @Autowired
+    PagedResourcesAssembler<BookVO> assembler;
+
+    public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable){
         logger.info("Finding all books!");
 
-        var entity = repository.findAll();
+        Page<Book> bookPage = repository.findAll(pageable);
 
-        List<BookVO> voList = ModelMapper.parseListObjects(entity, BookVO.class);
-        voList.forEach(book -> {
+        Page<BookVO> voPage = bookPage.map(b -> ModelMapper.parseObject(b, BookVO.class));
+
+        voPage.map(book -> {
             try{
-                book.add(linkTo(methodOn(BookController.class).findById(book.getKey())).withSelfRel());
+                return book.add(linkTo(methodOn(BookController.class).findById(book.getKey())).withSelfRel());
             } catch (Exception e){
                 throw new RuntimeException(e);
             }
         });
 
-        return voList;
+        Link link = linkTo(methodOn(BookController.class)
+                .findAll(
+                        pageable.getPageNumber(),
+                        pageable.getPageSize(),
+                        pageable.getSort().toString()
+                ))
+                .withSelfRel();
+
+        return assembler.toModel(voPage, link);
     }
 
     public BookVO findById(Long id) {

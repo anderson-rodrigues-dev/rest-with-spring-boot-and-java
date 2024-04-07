@@ -10,9 +10,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:62801/root
   jpa:
-    open-in-view: false
     hibernate:
       ddl-auto: none
     # properties:
