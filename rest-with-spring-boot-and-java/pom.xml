@@ -61,11 +61,11 @@
 			<artifactId>flyway-mysql</artifactId>
 		</dependency>
 
-		<!-- <dependency>
+		<dependency>
 			<groupId>com.github.dozermapper</groupId>
 			<artifactId>dozer-core</artifactId>
 			<version>${dozer.version}</version>
-		</dependency> -->
+		</dependency>
 
 		<dependency>
 			<groupId>org.modelmapper</groupId>

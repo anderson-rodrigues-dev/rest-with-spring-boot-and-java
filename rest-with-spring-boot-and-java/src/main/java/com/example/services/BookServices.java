@@ -4,7 +4,7 @@ import com.example.controllers.BookController;
 import com.example.data.vo.v1.BookVO;
 import com.example.exceptions.RequiredObjectIsNullException;
 import com.example.exceptions.ResourceNotFoundException;
-import com.example.mapper.ModelMapper;
+import com.example.mapper.DozerMapper;
 import com.example.models.Book;
 import com.example.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class BookServices {
 
         Page<Book> bookPage = repository.findAll(pageable);
 
-        Page<BookVO> voPage = bookPage.map(b -> ModelMapper.parseObject(b, BookVO.class));
+        Page<BookVO> voPage = bookPage.map(b -> DozerMapper.parseObject(b, BookVO.class));
 
         voPage.map(book -> {
             try{
@@ -63,7 +63,7 @@ public class BookServices {
         logger.info("Finding one book!");
         var entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("No records found for this ID"));
 
-        BookVO vo = ModelMapper.parseObject(entity, BookVO.class);
+        BookVO vo = DozerMapper.parseObject(entity, BookVO.class);
         vo.add(linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel());
 
         return vo;
@@ -73,8 +73,8 @@ public class BookServices {
         if(book == null) throw new RequiredObjectIsNullException();
 
         logger.info("Creating one book!");
-        Book entity = ModelMapper.parseObject(book, Book.class);
-        BookVO vo = ModelMapper.parseObject(repository.save(entity), BookVO.class);
+        Book entity = DozerMapper.parseObject(book, Book.class);
+        BookVO vo = DozerMapper.parseObject(repository.save(entity), BookVO.class);
         vo.add(linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel());
 
         return vo;
@@ -92,7 +92,7 @@ public class BookServices {
         entity.setPrice(book.getPrice());
         entity.setTitle(book.getTitle());
 
-        BookVO vo = ModelMapper.parseObject(repository.save(entity), BookVO.class);
+        BookVO vo = DozerMapper.parseObject(repository.save(entity), BookVO.class);
         vo.add(linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel());
 
         return vo;
