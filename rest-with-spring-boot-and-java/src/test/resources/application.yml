@@ -1,5 +1,7 @@
 cors:
   originPatterns: http://localhost:8080
+file:
+  upload-dir: /Users/Andrt/OneDrive/Área de Trabalho/CURSOS/UDEMY/REST API Spring Boot Java Docker/Secao_21_Upload_Download_Arquivos
 security:
   jwt:
     token:
@@ -17,6 +19,12 @@ spring:
       # hibernate:
         # dialect: org.hibernate.dialect.MySQLDialect
     show_sql: false
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 200MB
+      max-request-size: 215MB
 springdoc:
   paths-to-match:
     - /auth/**
