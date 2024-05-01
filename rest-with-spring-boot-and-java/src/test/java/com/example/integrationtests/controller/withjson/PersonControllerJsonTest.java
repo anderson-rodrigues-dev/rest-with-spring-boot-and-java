@@ -290,7 +290,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
     @Test
     @Order(8)
-    void testHateoas() throws JsonProcessingException {
+    void testHateoas() {
         var content = given()
                 .spec(specification)
                 .header(TestConfigs.HEADER_PARAM_ORIGIN, TestConfigs.ORIGIN_LOCALHOST)
