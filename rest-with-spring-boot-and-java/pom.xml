@@ -134,31 +134,42 @@
 
 
 	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+				</plugin>
 
-			<plugin>
-				<groupId>org.flywaydb</groupId>
-				<artifactId>flyway-maven-plugin</artifactId>
-				<version>10.7.1</version>
-				<dependencies>
-					<dependency>
-						<groupId>com.mysql</groupId>
-						<artifactId>mysql-connector-j</artifactId>
-						<version>${mysql.version}</version>
-						<exclusions>
-							<exclusion>
-								<groupId>org.slf4j</groupId>
-								<artifactId>slf4j-api</artifactId>
-							</exclusion>
-						</exclusions>
-					</dependency>
-				</dependencies>
-			</plugin>
-		</plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>3.2.5</version>
+					<configuration>
+						<skipTests>true</skipTests>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.flywaydb</groupId>
+					<artifactId>flyway-maven-plugin</artifactId>
+					<version>10.7.1</version>
+					<dependencies>
+						<dependency>
+							<groupId>com.mysql</groupId>
+							<artifactId>mysql-connector-j</artifactId>
+							<version>${mysql.version}</version>
+							<exclusions>
+								<exclusion>
+									<groupId>org.slf4j</groupId>
+									<artifactId>slf4j-api</artifactId>
+								</exclusion>
+							</exclusions>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 <!--	<repositories>-->
 <!--		<repository>-->

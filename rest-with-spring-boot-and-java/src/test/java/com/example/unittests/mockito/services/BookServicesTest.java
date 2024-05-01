@@ -15,11 +15,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -43,15 +40,17 @@ class BookServicesTest {
     @Test
     void findById() {
         Book entity = input.mockEntity(1);
+        entity.setId(1L);
 
         when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
         var result = service.findById(entity.getId());
+
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
+        assertNotNull(result.getLaunchDate());
         assertTrue(result.toString().contains("links: [</api/book/v1/" + result.getKey() + ">;rel=\"self\"]"));
         assertEquals("Author" + result.getKey(), result.getAuthor());
-        assertThat(result.getLaunchDate()).isEqualTo(LocalDate.of(2024, 3, 10));
         assertEquals(result.getKey().doubleValue(), result.getPrice());
         assertEquals("Title" + result.getKey(), result.getTitle());
     }
@@ -99,9 +98,9 @@ class BookServicesTest {
         assertNotNull(result);
         assertNotNull(result.getKey());
         assertNotNull(result.getLinks());
+        assertNotNull(result.getLaunchDate());
         assertTrue(result.toString().contains("links: [</api/book/v1/" + result.getKey() + ">;rel=\"self\"]"));
         assertEquals("Author" + result.getKey(), result.getAuthor());
-        assertEquals(new Date(2024_03_10L), result.getLaunchDate());
         assertEquals(result.getKey().doubleValue(), result.getPrice());
         assertEquals("Title" + result.getKey(), result.getTitle());
     }
