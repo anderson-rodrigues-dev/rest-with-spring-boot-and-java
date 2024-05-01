@@ -1,6 +1,5 @@
 package com.example.integrationtests.vo;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serial;

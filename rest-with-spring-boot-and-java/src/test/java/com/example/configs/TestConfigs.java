@@ -11,5 +11,4 @@ public class TestConfigs {
 
     public static final String ORIGIN_LOCALHOST = "http://localhost:8080";
     public static final String ORIGIN_ANDIIN = "www.andiin.com";
-
 }

@@ -1,6 +1,5 @@
 package com.example.integrationtests.testcontainers;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -30,7 +29,6 @@ public class AbstractIntegrationTest {
         }
 
         private static Map<String, String> createConnectionConfiguration() {
-            System.out.println(mysql.getJdbcUrl() + " " + mysql.getUsername() + " " + mysql.getPassword());
             return Map.of(
                     "spring.datasource.url", mysql.getJdbcUrl(),
                     "spring.datasource.username", mysql.getUsername(),

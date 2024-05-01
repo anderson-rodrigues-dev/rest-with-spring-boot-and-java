@@ -37,6 +37,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 
         person = new PersonVO();
     }
+
     @Test
     @Order(0)
     void authorization() {
