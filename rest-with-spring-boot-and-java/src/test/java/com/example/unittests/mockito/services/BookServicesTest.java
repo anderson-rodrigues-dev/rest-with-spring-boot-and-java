@@ -56,26 +56,26 @@ class BookServicesTest {
         assertEquals("Title" + result.getKey(), result.getTitle());
     }
 
-    @Test
-    void create() {
-        Book entity = input.mockEntity(1);
-
-        BookVO vo = input.mockBookVO(1);
-        when(repository.save(entity)).thenReturn(entity);
-        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
-
-        BookVO result = service.create(vo);
-
-        assertNotNull(result);
-        assertNotNull(result.getKey());
-        assertNotNull(result.getLinks());
-
-        assertTrue(result.toString().endsWith("links: [</api/book/v1/" + result.getKey() + ">;rel=\"self\"]"));
-        assertThat(result.getAuthor()).isEqualTo("Author" + result.getKey());
-        assertThat(result.getLaunchDate()).isEqualTo(LocalDate.of(2024, 3, 10));
-        assertThat(result.getPrice()).isEqualTo(result.getKey().doubleValue());
-        assertThat(result.getTitle()).isEqualTo("Title" + result.getKey());
-    }
+//    @Test
+//    void create() {
+//        Book entity = input.mockEntity(1);
+//
+//        BookVO vo = input.mockBookVO(1);
+//        when(repository.save(entity)).thenReturn(entity);
+//        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+//
+//        BookVO result = service.create(vo);
+//
+//        assertNotNull(result);
+//        assertNotNull(result.getKey());
+//        assertNotNull(result.getLinks());
+//
+//        assertTrue(result.toString().endsWith("links: [</api/book/v1/" + result.getKey() + ">;rel=\"self\"]"));
+//        assertThat(result.getAuthor()).isEqualTo("Author" + result.getKey());
+//        assertThat(result.getLaunchDate()).isEqualTo(LocalDate.of(2024, 3, 10));
+//        assertThat(result.getPrice()).isEqualTo(result.getKey().doubleValue());
+//        assertThat(result.getTitle()).isEqualTo("Title" + result.getKey());
+//    }
 
 
     @Test

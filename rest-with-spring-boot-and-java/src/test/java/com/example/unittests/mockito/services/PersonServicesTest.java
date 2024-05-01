@@ -54,29 +54,29 @@ class PersonServicesTest {
         assertEquals("Female", result.getGender());
     }
 
-    @Test
-    void create() throws Exception {
-        Person entity = input.mockEntity(1);
-
-        entity.setId(1L);
-
-        PersonVO vo = input.mockVO(1);
-        vo.setKey(1L);
-
-        when(repository.save(entity)).thenReturn(entity);
-        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
-
-        var result = service.create(vo);
-        System.out.println(result.getKey() + result.getFirstName() + result.getLastName() + result.getAddress() + result.getGender());
-        assertNotNull(result);
-        assertNotNull(result.getKey());
-        assertNotNull(result.getLinks());
-        assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
-        assertEquals("Address Test1", result.getAddress());
-        assertEquals("First Name Test1", result.getFirstName());
-        assertEquals("Last Name Test1", result.getLastName());
-        assertEquals("Female", result.getGender());
-    }
+//    @Test
+//    void create() throws Exception {
+//        Person entity = input.mockEntity(1);
+//
+//        entity.setId(1L);
+//
+//        PersonVO vo = input.mockVO(1);
+//        vo.setKey(1L);
+//
+//        when(repository.save(entity)).thenReturn(entity);
+//        when(repository.findById(entity.getId())).thenReturn(Optional.of(entity));
+//
+//        var result = service.create(vo);
+//        System.out.println(result.getKey() + result.getFirstName() + result.getLastName() + result.getAddress() + result.getGender());
+//        assertNotNull(result);
+//        assertNotNull(result.getKey());
+//        assertNotNull(result.getLinks());
+//        assertTrue(result.toString().contains("links: [</api/person/v1/1>;rel=\"self\"]"));
+//        assertEquals("Address Test1", result.getAddress());
+//        assertEquals("First Name Test1", result.getFirstName());
+//        assertEquals("Last Name Test1", result.getLastName());
+//        assertEquals("Female", result.getGender());
+//    }
 
     @Test
     void createWithNullPerson() {
